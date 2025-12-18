@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
-import { Button, Form, FormLabel } from "react-bootstrap"
+import { Button, Form } from "react-bootstrap"
 import ApiClient from "../../../utils/ApiClient"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 
 interface SignUpForm{
     username : string,
@@ -10,10 +10,12 @@ interface SignUpForm{
 }
 
 function SignUp() {
+    const navigate = useNavigate()
+
     const [form,setForm] = useState<SignUpForm>({
-        username: " ",
-        email: " ",
-        password: " "
+        username: "",
+        email: "",
+        password: ""
     })
 
 
@@ -30,7 +32,9 @@ const onSubmit = async (event : FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try{
         const response = await ApiClient.post("/signup",form)
-        console.log(response);
+        console.log(response)
+        // navigate to signIn route (matches router path)
+        navigate('/signIn')
     } catch (error) {
         console.log(error);
     }
@@ -66,12 +70,12 @@ const onSubmit = async (event : FormEvent<HTMLFormElement>) => {
                     value={form.password}
                     onChange={onHandleChange}
                         name= "password"
-                        type="text" 
+                        type="password" 
                         placeholder="password" />
                 </Form.Group>
 
                 <Button type="submit" variant="primary">Sign Up</Button>
-                <NavLink to="/signin">Sign In</NavLink>
+                <NavLink to="/signIn">Sign In</NavLink>
             </Form>
         </div>
 </div>

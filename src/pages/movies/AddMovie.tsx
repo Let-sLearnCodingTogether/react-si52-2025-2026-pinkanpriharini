@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { Button } from "react-bootstrap";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import ApiClient from "../../utils/ApiClient";
+import NavbarComponent from "../../components/Navbar";
 
 interface FormMovie {
     judul: string;
@@ -36,7 +37,7 @@ function AddMovie() {
             console.log(response);
 
             // ⬅⬅⬅ PENTING: PINDAH KE MOVIES
-            navigate("/");
+            navigate("/movies");
 
         } catch (error) {
             console.log(error);
@@ -44,9 +45,11 @@ function AddMovie() {
     };
 
     return (
-        <div className="container mx-auto">
+        <>
+            <NavbarComponent />
+            <div className="container mx-auto">
             <h4>Add Movie Page</h4>
-            <NavLink to="/" className="btn btn-primary">List Movie</NavLink>
+            <NavLink to="/movies" className="btn btn-primary">List Movie</NavLink>
 
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formJudul">
@@ -86,7 +89,8 @@ function AddMovie() {
                     Simpan
                 </Button>
             </Form>
-        </div>
+            </div>
+        </>
     );
 }
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import ApiClient from "../../utils/ApiClient";
+import NavbarComponent from "../../components/Navbar";
 
 interface Movie {
     _id: string;
@@ -41,10 +42,12 @@ function Movies() {
     }, [fetchMovies]);
 
     return (
-        <div className="container mx-auto">
+        <>
+            <NavbarComponent />
+            <div className="container mx-auto">
             <div className="d-flex justify-content-between mb-3">
                 <h2>Movie Page</h2>
-                <NavLink to="movies/add-movie" className="btn btn-primary">
+                <NavLink to="/movies/add-movie" className="btn btn-primary">
                     Add movie
                 </NavLink>
             </div>
@@ -91,7 +94,8 @@ function Movies() {
                     )}
                 </tbody>
             </table>
-        </div>
+            </div>
+        </>
     );
 }
 

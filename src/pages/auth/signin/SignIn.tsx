@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Button, Form } from "react-bootstrap";
 import ApiClient from "../../../utils/ApiClient";
+import { useNavigate } from "react-router"
 
 interface SignInForm {
   email: string;
@@ -9,6 +10,7 @@ interface SignInForm {
 
 function SignIn() {
   const[isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
   const [form, setForm] = useState<SignInForm>({
     email: "",
     password: "",
@@ -30,12 +32,13 @@ function SignIn() {
       const response = await ApiClient.post("/signIn", form);
       console.log(response.data);
 
-      if(response.status === 200){
-        //redirect user ke halaman movie 
-        localStorage.setItem("AuthToken",)
-        navigate("/movies", {
-          replance : true
-        })
+      if (response.status === 200 && response.data && response.data.data) {
+        // simpan token dari response dan redirect ke halaman movies
+        const token = response.data.data.token
+        if (token) {
+          localStorage.setItem("AuthToken", token)
+        }
+        navigate("/movies", { replace: true })
       }
   
     } catch (error) {
@@ -83,7 +86,7 @@ function SignIn() {
         <div className="d-flex gap-3 align-items-center">
           <Button type="submit" variant="primary"
           disabled={isLoading}>
-            {isLoading ? "Loadin..." : "Sign In"}
+            {isLoading ? "Loading..." : "Sign In"}
           </Button>
         </div>
       </Form>
